@@ -104,7 +104,7 @@ body {
 
                     <hr class="mt-5">
 
-                    <h5 class="text-center mb-3">Family Photos</h5>
+                    <h5 class="text-center mb-3">Photos</h5>
                     <div id="photoGallery"></div>
 
                 </div>
@@ -119,16 +119,16 @@ body {
     <img id="overlayImg">
 </div>
 
-
 <script>
-// Get ?name= from URL
-(function(){
-    const params = new URLSearchParams(window.location.search);
-    const nameFromURL = params.get("name");
-    if (nameFromURL) {
-        document.getElementById("name").value = nameFromURL;
-    }
-})();
+// Get name from URL
+const params = new URLSearchParams(window.location.search);
+const nameFromURL = params.get("name");
+if (nameFromURL) {
+    document.getElementById("name").value = nameFromURL;
+}
+
+// Get photo sheet ID
+const photoSheet = params.get("photos");
 
 function sendMessage(){
     let msg = document.getElementById("message").value.trim();
@@ -143,7 +143,7 @@ function sendMessage(){
         return;
     }
 
-    fetch("YOUR_SCRIPT_URL_HERE", {
+    fetch("https://script.google.com/macros/s/AKfycbzTCvQby1oQZFAmJeF4VD1Ce4GKlBhsfwuOEtHXW1JI9fWXxSt1TAOJyy4YzVR34oYYCg/exec", {
         method: "POST",
         body: JSON.stringify({ name: name, message: msg })
     })
@@ -153,32 +153,30 @@ function sendMessage(){
         });
 }
 
-
 // =================
-// MANUAL PHOTO LIST
+// LOAD PHOTOS DYNAMICALLY
 // =================
 
-const photoIDs = [
-    "1AoH-DElaW2Xv2-DY77hLG_i_YaSFe3f0",
-    "15QM7diBhtzLHNa3GJbMYuBRkDS_Qncms",
-];
+function loadPhotosFromSheet(sheetID){
+    fetch("https://script.google.com/macros/s/AKfycbwgy-iGU91iItnhCvE-HdDpbvpiRpHSI2fEm098i_s_qmdNirty27vBiMs6aTE9XlfkmQ/exec?photos=" + sheetID)
+        .then(res => res.json())
+        .then(photoIDs => {
+            const gallery = document.getElementById("photoGallery");
+            gallery.innerHTML = "";
 
-// Load photos into page
-
-function loadPhotos() {
-    const gallery = document.getElementById("photoGallery");
-    gallery.innerHTML = "";
-
-    photoIDs.forEach(id => {
-        const img = document.createElement("img");
-        img.src = "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
-        img.onclick = () => showImage(img.src);
-        gallery.appendChild(img);
-    });
+            photoIDs.forEach(id => {
+                const img = document.createElement("img");
+                img.src = "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+                img.onclick = () => showImage(img.src);
+                gallery.appendChild(img);
+            });
+        });
 }
 
-loadPhotos();
-
+// If sheet ID present, load photos
+if (photoSheet){
+    loadPhotosFromSheet(photoSheet);
+}
 
 // =================
 // IMAGE ENLARGE
