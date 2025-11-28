@@ -3,6 +3,7 @@
 <head>
 <title>Admin QR Generator</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -22,9 +23,25 @@
     #qrcode img {
         margin-top: 20px;
     }
-</style>
-</head>
 
+    /* PRINT MODE — ONLY SHOW QR CODE */
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+        #qrcode, #qrcode * {
+            visibility: visible;
+        }
+        #qrcode {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+</style>
+
+</head>
 <body>
 
 <h2>Admin QR Code Generator</h2>
