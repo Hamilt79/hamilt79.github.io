@@ -145,7 +145,8 @@ function loadPhotos() {
 
     photoIDs.forEach(id => {
         const img = document.createElement("img");
-        img.src = "https://drive.google.com/uc?export=view&id=" + id;
+        // img.src = "https://drive.google.com/uc?export=view&id=" + id;
+        img.src = "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
         gallery.appendChild(img);
     });
 }
