@@ -64,7 +64,7 @@ function sendMessage(){
         return;
     }
 
-    fetch("YOUR_GOOGLE_SCRIPT_URL_HERE", {
+    fetch("https://docs.google.com/spreadsheets/d/1UWqJG4N9D0BGR4uIkAEJAAhKbqdrkE8Vk0fLVgZYgbc/edit", {
         method: "POST",
         body: JSON.stringify({ name: name, message: msg })
     })
