@@ -64,7 +64,7 @@ function sendMessage(){
         return;
     }
 
-    fetch("https://docs.google.com/spreadsheets/d/1UWqJG4N9D0BGR4uIkAEJAAhKbqdrkE8Vk0fLVgZYgbc/edit", {
+    fetch("https://script.google.com/macros/s/AKfycbzTCvQby1oQZFAmJeF4VD1Ce4GKlBhsfwuOEtHXW1JI9fWXxSt1TAOJyy4YzVR34oYYCg/exec", {
         method: "POST",
         body: JSON.stringify({ name: name, message: msg })
     })
